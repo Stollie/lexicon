@@ -45,6 +45,8 @@ htmlcov/
 nosetests.xml
 coverage.xml
 *,cover
+.pytest_cache
+db.example.com
 
 # Translations
 *.mo
@@ -63,3 +65,13 @@ target/
 .idea
 container_settings.json
 src/
+
+# VSCode
+.vscode
+
+# VIM
+*.swp
+
+# Other python stuff
+venv/
+.pytest_cache/

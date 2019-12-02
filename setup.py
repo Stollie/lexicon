@@ -24,9 +24,37 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 # Get a list of all the providers
 current_filepath = path.join(here, 'lexicon', 'providers')
 providers = [path.splitext(f)[0] for f in listdir(current_filepath) if path.isfile(path.join(current_filepath, f))]
-providers = list(set(providers))
+providers = list(sorted(set(providers)))
 providers.remove('base')
 providers.remove('__init__')
+
+# Define optional dependencies for specific providers.
+# Each key of the dict should match a provider name.
+extras_require = {
+    'namecheap': ['PyNamecheap'],
+    'route53': ['boto3'],
+    'softlayer': ['SoftLayer'],
+    'subreg': ['zeep'],
+    'transip': ['transip>=0.3.0'],
+    'plesk': ['xmltodict'],
+    'henet': ['beautifulsoup4'],
+    'hetzner': ['dnspython>=1.15.0', 'beautifulsoup4'],
+    'easyname': ['beautifulsoup4'],
+    'localzone': ['localzone'],
+    'gratisdns': ['beautifulsoup4'],
+    # Define dev/test dependencies
+    'dev': [
+        'pytest>=5.2 ; python_version >= "3.0"',
+        'pytest>=4.6 ; python_version >= "2.7"',
+        'pytest-cov>=2.8',
+        'pytest-xdist>=1.30',
+        'vcrpy>=2.1',
+        'mock>=3.0',
+    ]
+}
+
+# Add a 'full' extra, gathering all external dependencies for providers
+extras_require['full'] = [dep for name, deps in extras_require.items() if name != 'dev' for dep in deps]
 
 setup(
     name='dns-lexicon',
@@ -38,6 +66,7 @@ setup(
 
     description='Manipulate DNS records on various DNS providers in a standardized/agnostic way',
     long_description=long_description,
+    long_description_content_type="text/markdown",
 
     # The project's main homepage.
     url='https://github.com/AnalogJ/lexicon',
@@ -47,6 +76,8 @@ setup(
     author_email='jason@thesparktree.com',
 
     license='MIT',
+
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
@@ -66,9 +97,10 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
 
     keywords='dns lexicon dns-lexicon dehydrated letsencrypt ' + ' '.join(providers),
@@ -79,24 +111,22 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['requests', 'tldextract', 'future'],
+    install_requires=[
+        'requests[security]',
+        'tldextract',
+        'future',
+        'cryptography',
+        'pyyaml',
+    ],
 
-    # Each dependency group in extras_require should match a provider name
-    # When adding a new depenency group here, please ensure that it has been
-    # added to optional-requirements.txt as well.
-    extras_require={
-        'route53': ['boto3'],
-        'softlayer': ['SoftLayer'],
-        'transip': ['transip>=0.3.0'],
-        'dnsmadeeasy': ['Babel']
-    },
+    extras_require=extras_require,
 
     # To provide executable scripts, use entry points in preference to the
     # "scripts" keyword. Entry points provide cross-platform support and allow
     # pip to create the appropriate form of executable for the target platform.
     entry_points={
         'console_scripts': [
-            'lexicon=lexicon.__main__:main',
+            'lexicon=lexicon.cli:main',
         ],
     },
     test_suite='tests'

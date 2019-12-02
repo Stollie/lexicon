@@ -1,0 +1,226 @@
+interactions:
+- request:
+    body: !!python/unicode '{}'
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['2']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: https://api.digitalocean.com/v2/domains/capsulecd.com
+  response:
+    body: {string: !!python/unicode '{"domain":{"name":"capsulecd.com","ttl":1800,"zone_file":"$ORIGIN
+        capsulecd.com.\n$TTL 1800\ncapsulecd.com. IN SOA ns1.digitalocean.com. hostmaster.capsulecd.com.
+        1521528433 10800 3600 604800 1800\ncapsulecd.com. 1800 IN NS ns1.digitalocean.com.\ncapsulecd.com.
+        1800 IN NS ns2.digitalocean.com.\ncapsulecd.com. 1800 IN NS ns3.digitalocean.com.\ncapsulecd.com.
+        1800 IN A 127.0.0.1\nlocalhost.capsulecd.com. 1800 IN A 127.0.0.1\ndocs.capsulecd.com.
+        1800 IN CNAME docs.example.com.\n_acme-challenge.fqdn.capsulecd.com. 1800
+        IN TXT challengetoken\n_acme-challenge.full.capsulecd.com. 1800 IN TXT challengetoken\n_acme-challenge.test.capsulecd.com.
+        1800 IN TXT challengetoken\n"}}'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      cf-ray: [3fe639ebbdd993f0-SJC]
+      connection: [keep-alive]
+      content-length: ['675']
+      content-type: [application/json; charset=utf-8]
+      date: ['Tue, 20 Mar 2018 06:47:14 GMT']
+      etag: [W/"e637be30b300a0d4489ddbb6e121160c"]
+      expect-ct: ['max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"']
+      ratelimit-limit: ['5000']
+      ratelimit-remaining: ['4808']
+      ratelimit-reset: ['1521525195']
+      server: [cloudflare]
+      set-cookie: ['__cfduid=dc00cf34b9238a6077601d1d14f753bb21521528434; expires=Wed,
+          20-Mar-19 06:47:14 GMT; path=/; domain=.digitalocean.com; HttpOnly']
+      transfer-encoding: [chunked]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-gateway: [Edge-Gateway]
+      x-request-id: [deb75d5d-d86b-4b44-9e00-191cbe3e85da]
+      x-response-from: [service]
+      x-runtime: ['0.158162']
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: !!python/unicode '{}'
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['2']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: https://api.digitalocean.com/v2/domains/capsulecd.com/records
+  response:
+    body: {string: !!python/unicode '{"domain_records":[{"id":13310015,"type":"NS","name":"@","data":"ns1.digitalocean.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":13310016,"type":"NS","name":"@","data":"ns2.digitalocean.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":13310017,"type":"NS","name":"@","data":"ns3.digitalocean.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":13310018,"type":"A","name":"@","data":"127.0.0.1","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629349,"type":"A","name":"localhost","data":"127.0.0.1","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629350,"type":"CNAME","name":"docs","data":"docs.example.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629351,"type":"TXT","name":"_acme-challenge.fqdn","data":"challengetoken","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629354,"type":"TXT","name":"_acme-challenge.full","data":"challengetoken","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629356,"type":"TXT","name":"_acme-challenge.test","data":"challengetoken","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null}],"links":{},"meta":{"total":9}}'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      cf-ray: [3fe639ee39b69306-SJC]
+      connection: [keep-alive]
+      content-length: ['1392']
+      content-type: [application/json; charset=utf-8]
+      date: ['Tue, 20 Mar 2018 06:47:15 GMT']
+      etag: [W/"6233565674659fe96fd8233ffa44c43d"]
+      expect-ct: ['max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"']
+      ratelimit-limit: ['5000']
+      ratelimit-remaining: ['4807']
+      ratelimit-reset: ['1521525195']
+      server: [cloudflare]
+      set-cookie: ['__cfduid=d980d6d96fa4044eeb7fc29c5f16e59d01521528434; expires=Wed,
+          20-Mar-19 06:47:14 GMT; path=/; domain=.digitalocean.com; HttpOnly']
+      transfer-encoding: [chunked]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-gateway: [Edge-Gateway]
+      x-request-id: [ba47f658-81be-4efd-b6e9-aaf5cf62a449]
+      x-response-from: [service]
+      x-runtime: ['0.157243']
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: !!python/unicode '{"data": "challengetoken", "type": "TXT", "name": "delete.testfqdn"}'
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['68']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: POST
+    uri: https://api.digitalocean.com/v2/domains/capsulecd.com/records
+  response:
+    body: {string: !!python/unicode '{"domain_record":{"id":38629361,"type":"TXT","name":"delete.testfqdn","data":"challengetoken","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null}}'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      cf-ray: [3fe639f23a6192f4-SJC]
+      connection: [keep-alive]
+      content-length: ['172']
+      content-type: [application/json; charset=utf-8]
+      date: ['Tue, 20 Mar 2018 06:47:15 GMT']
+      etag: ['"e3d967f40f2809ef1ae3e725f5495d87"']
+      expect-ct: ['max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"']
+      ratelimit-limit: ['5000']
+      ratelimit-remaining: ['4806']
+      ratelimit-reset: ['1521525195']
+      server: [cloudflare]
+      set-cookie: ['__cfduid=d4f84e200d31471224a47ca6284ac7c2b1521528435; expires=Wed,
+          20-Mar-19 06:47:15 GMT; path=/; domain=.digitalocean.com; HttpOnly']
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-gateway: [Edge-Gateway]
+      x-request-id: [a9f11f28-927d-4d7b-8110-a5d71735cba2]
+      x-response-from: [service]
+      x-runtime: ['0.239036']
+      x-xss-protection: [1; mode=block]
+    status: {code: 201, message: Created}
+- request:
+    body: !!python/unicode '{}'
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['2']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: https://api.digitalocean.com/v2/domains/capsulecd.com/records
+  response:
+    body: {string: !!python/unicode '{"domain_records":[{"id":13310015,"type":"NS","name":"@","data":"ns1.digitalocean.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":13310016,"type":"NS","name":"@","data":"ns2.digitalocean.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":13310017,"type":"NS","name":"@","data":"ns3.digitalocean.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":13310018,"type":"A","name":"@","data":"127.0.0.1","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629349,"type":"A","name":"localhost","data":"127.0.0.1","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629350,"type":"CNAME","name":"docs","data":"docs.example.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629351,"type":"TXT","name":"_acme-challenge.fqdn","data":"challengetoken","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629354,"type":"TXT","name":"_acme-challenge.full","data":"challengetoken","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629356,"type":"TXT","name":"_acme-challenge.test","data":"challengetoken","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629361,"type":"TXT","name":"delete.testfqdn","data":"challengetoken","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null}],"links":{},"meta":{"total":10}}'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      cf-ray: [3fe639f50bdd9390-SJC]
+      connection: [keep-alive]
+      content-length: ['1548']
+      content-type: [application/json; charset=utf-8]
+      date: ['Tue, 20 Mar 2018 06:47:16 GMT']
+      etag: [W/"5307ec50c93967e1c3859caf6328ad8b"]
+      expect-ct: ['max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"']
+      ratelimit-limit: ['5000']
+      ratelimit-remaining: ['4805']
+      ratelimit-reset: ['1521525195']
+      server: [cloudflare]
+      set-cookie: ['__cfduid=de2546e13004f155d7689c4acb4fe92421521528436; expires=Wed,
+          20-Mar-19 06:47:16 GMT; path=/; domain=.digitalocean.com; HttpOnly']
+      transfer-encoding: [chunked]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-gateway: [Edge-Gateway]
+      x-request-id: [2aa6a3b2-4d36-4900-a7ea-e41eef4bdb97]
+      x-response-from: [service]
+      x-runtime: ['0.153885']
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: !!python/unicode '{}'
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['2']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: DELETE
+    uri: https://api.digitalocean.com/v2/domains/capsulecd.com/records/38629361
+  response:
+    body: {string: !!python/unicode ''}
+    headers:
+      cache-control: [no-cache]
+      cf-ray: [3fe639f75a26933c-SJC]
+      connection: [keep-alive]
+      date: ['Tue, 20 Mar 2018 06:47:16 GMT']
+      expect-ct: ['max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"']
+      ratelimit-limit: ['5000']
+      ratelimit-remaining: ['4804']
+      ratelimit-reset: ['1521525195']
+      server: [cloudflare]
+      set-cookie: ['__cfduid=dc631a300814540f88566023d5012deac1521528436; expires=Wed,
+          20-Mar-19 06:47:16 GMT; path=/; domain=.digitalocean.com; HttpOnly']
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-gateway: [Edge-Gateway]
+      x-request-id: [e1b4d2b3-6b71-488f-956c-17b7644afc31]
+      x-response-from: [service]
+      x-runtime: ['0.204011']
+      x-xss-protection: [1; mode=block]
+    status: {code: 204, message: No Content}
+- request:
+    body: !!python/unicode '{}'
+    headers:
+      Accept: [application/json]
+      Accept-Encoding: ['gzip, deflate']
+      Connection: [keep-alive]
+      Content-Length: ['2']
+      Content-Type: [application/json]
+      User-Agent: [python-requests/2.18.4]
+    method: GET
+    uri: https://api.digitalocean.com/v2/domains/capsulecd.com/records
+  response:
+    body: {string: !!python/unicode '{"domain_records":[{"id":13310015,"type":"NS","name":"@","data":"ns1.digitalocean.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":13310016,"type":"NS","name":"@","data":"ns2.digitalocean.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":13310017,"type":"NS","name":"@","data":"ns3.digitalocean.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":13310018,"type":"A","name":"@","data":"127.0.0.1","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629349,"type":"A","name":"localhost","data":"127.0.0.1","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629350,"type":"CNAME","name":"docs","data":"docs.example.com","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629351,"type":"TXT","name":"_acme-challenge.fqdn","data":"challengetoken","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629354,"type":"TXT","name":"_acme-challenge.full","data":"challengetoken","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null},{"id":38629356,"type":"TXT","name":"_acme-challenge.test","data":"challengetoken","priority":null,"port":null,"ttl":1800,"weight":null,"flags":null,"tag":null}],"links":{},"meta":{"total":9}}'}
+    headers:
+      cache-control: ['max-age=0, private, must-revalidate']
+      cf-ray: [3fe639f9b931961f-SJC]
+      connection: [keep-alive]
+      content-length: ['1392']
+      content-type: [application/json; charset=utf-8]
+      date: ['Tue, 20 Mar 2018 06:47:17 GMT']
+      etag: [W/"6233565674659fe96fd8233ffa44c43d"]
+      expect-ct: ['max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"']
+      ratelimit-limit: ['5000']
+      ratelimit-remaining: ['4803']
+      ratelimit-reset: ['1521525195']
+      server: [cloudflare]
+      set-cookie: ['__cfduid=d8f1d75ede1aa871df1daa7808d02b3fa1521528436; expires=Wed,
+          20-Mar-19 06:47:16 GMT; path=/; domain=.digitalocean.com; HttpOnly']
+      transfer-encoding: [chunked]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-gateway: [Edge-Gateway]
+      x-request-id: [e307df8e-ca38-4094-831a-034080519003]
+      x-response-from: [service]
+      x-runtime: ['0.293612']
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+version: 1

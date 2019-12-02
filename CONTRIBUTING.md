@@ -13,19 +13,24 @@ Fork, then clone the repo:
 
     $ git clone git@github.com:your-username/lexicon.git
 
-Install all `lexicon` requirements:
+Create a python virtual environment:
 
-    $ pip install -r optional-requirements.txt
-    $ pip install -r test-requirements.txt
+	$ virtualenv -p python2.7 venv
+	$ source venv/bin/activate
 
-Install `lexicon` in development mode
+Install `lexicon` in development mode with full providers support:
 
-    $ pip install -e .
+    $ pip install -e .[full,dev]
 
 Make sure the tests pass:
 
-    $ py.test tests
+    $ py.test lexicon/tests
 
+You can test a specific provider using:
+
+	$ py.test lexicon/tests/providers/test_foo.py
+
+_NB: Please note that by default, tests are replayed from recordings located in `tests/fixtures/cassettes`, not against the real DNS provider APIs._
 
 ## Adding a new DNS provider
 
@@ -38,27 +43,34 @@ thing you'll really need to do is is create the following file.
 Where `foo` should be replaced with the name of the DNS service in lowercase
 and without spaces or special characters (eg. `cloudflare`)
 
-Your provider file should contain 2 things:
+Your provider file should contain 3 things:
 
-- a `ProviderParser` which is used to add provider specific commandline arguments.
+- a `NAMESERVER_DOMAINS` which contains the domain(s) used by the DNS provider nameservers FQDNs
+(eg. Google Cloud DNS uses nameservers that have the FQDN pattern `ns-cloud-cX-googledomains.com`,
+so `NAMESERVER_DOMAINS` will be `['googledomains.com']`).
+
+- a `provider_parser` which is used to add provider specific commandline arguments.
 eg. If you define two cli arguments: `--auth-username` and `--auth-token`,
- those values will be available to your provider via `self.options['auth_username']`
- or `self.options['auth_token']` respectively
+ those values will be available to your provider via `self._get_provider_option('auth_username')`
+ or `self._get_provider_option('auth_token')` respectively
 
 - a `Provider` class which inherits from [`BaseProvider`](https://github.com/AnalogJ/lexicon/blob/master/lexicon/providers/base.py), which is in the `base.py` file.
 The [`BaseProvider`](https://github.com/AnalogJ/lexicon/blob/master/lexicon/providers/base.py)
 defines the following functions, which must be overridden in your provider implementation:
 
-    - `authenticate`
-    - `create_record`
-    - `list_records`
-    - `update_record`
-    - `delete_record`
+    - `_authenticate`
+    - `_create_record`
+    - `_list_records`
+    - `_update_record`
+    - `_delete_record`
     - `_request`
 
 	It also provides a few helper functions which you can use to simplify your implemenation.
 	See the [`cloudflare.py`](https://github.com/AnalogJ/lexicon/blob/master/lexicon/providers/cloudflare.py)
 	 file, or any provider in the [`lexicon/providers/`](https://github.com/AnalogJ/lexicon/tree/master/lexicon/providers) folder for examples
+
+It's a good idea to review the provider [specification](https://github.com/AnalogJ/lexicon/blob/master/SPECIFICATION.md) to ensure that your interface follows
+the proper conventions.
 
 
 ## Testing your provider
@@ -84,23 +96,20 @@ same as all other `lexicon` providers. `lexicon` uses `vcrpy` to make recordings
 
 The only thing you need to do is create the following file:
 
- - `tests/providers/test_foo.py`
+ - `lexicon/tests/providers/test_foo.py`
 
 Then you'll need to populate it with the following template:
 
 ```python
 # Test for one implementation of the interface
-from lexicon.providers.foo import Provider
-from integration_tests import IntegrationTests
+from lexicon.tests.providers.integration_tests import IntegrationTests
 from unittest import TestCase
-import pytest
 
 # Hook into testing framework by inheriting unittest.TestCase and reuse
 # the tests which *each and every* implementation of the interface must
 # pass, by inheritance from integration_tests.IntegrationTests
 class FooProviderTests(TestCase, IntegrationTests):
-
-	Provider = Provider
+    """Integration tests for Foo provider"""
 	provider_name = 'foo'
 	domain = 'example.com'
 	def _filter_post_data_parameters(self):
@@ -112,9 +121,10 @@ class FooProviderTests(TestCase, IntegrationTests):
 	def _filter_query_parameters(self):
 		return ['secret_key']
 
-	@pytest.mark.skip(reason="can not set ttl when creating/updating records")
-	def test_Provider_when_calling_list_records_after_setting_ttl(self):
-		return
+	def _filter_response(self, response):
+		"""See `IntegrationTests._filter_response` for more information on how
+		to filter the provider response."""
+		return response
 ```
 
 Make sure to replace any instance of `foo` or `Foo` with your provider name.
@@ -125,22 +135,26 @@ The `_filter_*` methods ensure that your credentials are not included in the
 `vcrpy` recordings that are created. You can take a look at recordings for other
  providers, they are stored in the [`tests/fixtures/cassettes/`](https://github.com/AnalogJ/lexicon/tree/master/tests/fixtures/cassettes) sub-folders.
 
-You can use `@pytest.mark.skip` to skip any individual test that will never pass with
-your provider.
-
 Then you'll need to setup your environment variables for testing. Unlike running
 `lexicon` via the CLI, the test suite cannot take user input, so we'll need to provide
-any `auth-*` secrets/arguments using environmental variables prefixed with `LEXICON_FOO_`.
+any CLI arguments containing secrets (like `--auth-*`) using environmental variables prefixed
+with `LEXICON_FOO_`.
 
-eg. if you had a `--auth-token` CLI argument, you can also populate it
-using the `LEXICON_FOO_TOKEN` environmental variable. Notice that only `--auth-*` arguments
-can be passed like this. All non-secret arguments should be specified in the `test_options`.
-See [powerdns test suite](https://github.com/AnalogJ/lexicon/blob/82fa5056df2122357af7f9bec94aebc58b247f91/tests/providers/test_powerdns.py#L18-L21) for an example.
+For instance, if you had a `--auth-token` CLI argument, you can populate it
+using the `LEXICON_FOO_AUTH_TOKEN` environmental variable.
 
-Now run the `py.test` suite again. It will automatically generate recordings for
-your provider:
+Notice also that you should pass any required non-secrets arguments programmatically using the `_test_parameters_override()` method. See
+https://github.com/AnalogJ/lexicon/blob/5ee4d16f9d6206e212c2197f2e53a1db248f5eb9/lexicon/tests/providers/test_powerdns.py#L19
+for an example.
 
-	py.test tests/providers/test_foo.py
+## Test recordings
+
+Now you need to run the `py.test` suite again, but in a different mode: the live tests mode. 
+In default test mode, tests are replayed from existing recordings. In live mode, tests are executed against the real DNS provider API, and recordings will automatically be generated for your provider.
+
+To execute the `py.test` suite using the live tests mode, execute py.test with the environment variable `LEXICON_LIVE_TESTS` set to `true` like below:
+
+	LEXICON_LIVE_TESTS=true py.test tests/providers/test_foo.py
 
 If any of the integration tests fail on your provider, you'll need to delete the recordings that were created,
 make your changes and then try again.
@@ -156,12 +170,37 @@ Finally, push your changes to your Github fork, and open a PR.
 
 :)
 
+## Skipping Tests/Suites
+
+Neither of the snippets below should be used unless necessary. They are only included in the interest of documentation.
+
+In your `tests/providers/test_foo.py` file, you can use `@pytest.mark.skip` to skip any individual test that does not apply (and will never pass)
+
+```python
+	@pytest.mark.skip(reason="can not set ttl when creating/updating records")
+	def test_provider_when_calling_list_records_after_setting_ttl(self):
+		return
+```
+
+You can also skip extended test suites by adding the following snipped:
+
+```python
+    @pytest.fixture(autouse=True)
+    def _skip_suite(self, request):  # pylint: disable=no-self-use
+        if request.node.get_closest_marker('ext_suite_1'):
+            pytest.skip('Skipping extended suite')
+```
+
+## CODEOWNERS file
+
+Next, you should add yourself to the [CODEOWNERS file](https://github.com/AnalogJ/lexicon/blob/master/CODEOWNERS), in the root of the repo. It's my way of keeping track of who to ping when I need updated recordings as the test suites expand & change.
+
 ## Additional Notes
 
 Please keep in mind the following:
 
 - `lexicon` is designed to work with multiple versions of python. That means
-your code will be tested against python 2.7, 3.4, 3.5
+your code will be tested against python 2.7, 3.5, 3.6 and 3.7
 - any provider specific dependenices should be added to the `setup.py` file,
  under the `extra_requires` heading. The group name should be the name of the
  provider. eg:
